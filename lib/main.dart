@@ -1,8 +1,25 @@
-import 'package:custom_snackbars/features/custom_snack_bars/widgets/custom_snack_bar_widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:template_project/core/logger/custom_log_printer.dart';
+import 'package:template_project/core/logger/logger_instance.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await dotenv.load(fileName: ".env");
+
+  //* init logger
+  LogWrapper.logger = Logger(
+    level: kDebugMode ? Level.trace : Level.info,
+    output: FileOutput(
+      file: await LogWrapper.createLogfile(),
+    ),
+    printer: CustomLogPrinter(),
+  );
+
+  //* run
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,12 +28,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Home Page'),
     );
   }
 }
@@ -31,40 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    _counter++;
-    if (_counter >= 3) {
-      _counter = 0;
-    }
-    switch (_counter) {
-      case 0:
-        ScaffoldMessenger.of(context).showSnackBar(SuccessSnackBar(
-          title: 'Success',
-          message:
-              'the action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfullythe action was successfully',
-        ));
-        break;
-      case 1:
-        ScaffoldMessenger.of(context).showSnackBar(WarningSnackBar(
-          title: 'Warning',
-          message: 'something went wrong, redo action',
-        ));
-        break;
-      case 2:
-        ScaffoldMessenger.of(context).showSnackBar(ErrorSnackBar(
-          title: 'Failure',
-          message: 'i dont know what was wrong here',
-        ));
-        break;
-      default:
-        ScaffoldMessenger.of(context).showSnackBar(ErrorSnackBar(
-          title: 'Failure',
-          message: 'i dont know what was wrong here',
-        ));
-    }
-  }
+  void _actionButtonTapped() {}
 
   @override
   Widget build(BuildContext context) {
@@ -77,24 +60,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          //
-
-          //
-
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
-              '$_counter',
+              'simple text',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _actionButtonTapped,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

@@ -1,6 +1,6 @@
 {
-    "name": "custom_snackbars",
-    "short_name": "custom_snackbars",
+    "name": "template_project",
+    "short_name": "template_project",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

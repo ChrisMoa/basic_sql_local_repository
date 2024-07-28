@@ -1,4 +1,4 @@
-# custom_snackbars
+# flutter template_project
 
 A new Flutter project.
 
