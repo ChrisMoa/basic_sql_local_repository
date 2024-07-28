@@ -11,7 +11,7 @@ void main() async {
 
   //* init logger
   LogWrapper.logger = Logger(
-    level: kDebugMode ? Level.trace : Level.info,
+    level: kDebugMode ? Level.debug : Level.info,
     output: FileOutput(
       file: await LogWrapper.createLogfile(),
     ),

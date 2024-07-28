@@ -10,7 +10,7 @@ class LogWrapper {
 
   static Future<File> createLogfile() async {
     var addAppPath = dotenv.env['PROJECT_NAME'] ?? '';
-    final applicationDocumentsDir = await getApplicationDocumentsDirectory();
+    final applicationDocumentsDir = (await getApplicationDocumentsDirectory()).path;
     var logDir = Directory('$applicationDocumentsDir/$addAppPath/Logs');
     await logDir.create(recursive: true);
     var logFiles = logDir.listSync(recursive: false).whereType<File>().toList();
